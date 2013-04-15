@@ -3,23 +3,86 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 
 
 public class op {
 	
 	static double r, t, l, m, a, f;
+	static ArrayList<ArrayList<Double>> sLists;
 	
 	public static void main(String[] args) {
 		
-		String queryFile = args[0];
+//		String queryFile = args[0];
+//		String configFile = args[1];
+		String queryFile = "query.txt";
 		String configFile = "config.txt";
-		List<Double> selectivities = new ArrayList<Double>();
-		HashMap<String, Double> config = new HashMap<String, Double>();
+		
+		readQuery(queryFile);
+		readConfig(configFile);
+		
+//		for (ArrayList<Double> sList : sLists) {
+//			
+//		}
+		subsets(4);
+//		TreeSet<Integer> set = new TreeSet<Integer>();
+//		for (int j = 0; j < 3; j++)
+//			set.add(j);
+//		ArrayList<TreeSet<Integer>> s = subsetsOfSize(set, 2);
+//		for (TreeSet<Integer> ss : s) {
+//			for (int i : ss)
+//				System.out.print(i + " ");
+//			System.out.println();
+//		}
+		
+	}
+	
+	private static ArrayList<Subset> subsets(int listSize) {
+		ArrayList<TreeSet<Integer>> subs = new ArrayList<TreeSet<Integer>>();
+		for (int i = 1; i <= listSize; i++) {
+			TreeSet<Integer> set = new TreeSet<Integer>();
+			for (int j = 0; j < listSize; j++)
+				set.add(j);
+			subs.addAll(subsetsOfSize(set, i));
+		}
+		ArrayList<Subset> results = new ArrayList<Subset>();
+		for (TreeSet<Integer> s : subs) {
+//			for (int i : s)
+//				System.out.print(i + " ");
+//			System.out.println();
+			Subset newSubset = new Subset();
+			newSubset.setTerms(s);
+			results.add(newSubset);
+		}
+		return results;
+	}
+	
+	//find all the subsets of set with certain size
+	private static ArrayList<TreeSet<Integer>> subsetsOfSize(TreeSet<Integer> set, int size) {
+		if (size > set.size())
+			return new ArrayList<TreeSet<Integer>>();
+		if (size == 0) {
+			ArrayList<TreeSet<Integer>> s = new ArrayList<TreeSet<Integer>>();
+			s.add(new TreeSet<Integer>());
+			return s;
+		}
+		int first = set.first();
+//		System.out.println(first);
+		set.remove(first);
+		
+		ArrayList<TreeSet<Integer>> subs1 = subsetsOfSize(new TreeSet<Integer>(set), size - 1);
+		for (TreeSet<Integer> s : subs1)
+			s.add(first);
+		ArrayList<TreeSet<Integer>> subs2 = subsetsOfSize(set, size);
+		subs1.addAll(subs2);
+		return subs1;
+	}
+	
+	//read the config file
+	private static void readConfig(String configFile) {
 		Properties configProp = new Properties();
 		try {
 			configProp.load(new FileInputStream(configFile));
@@ -38,7 +101,11 @@ public class op {
 		f = Double.valueOf(configProp.getProperty("f"));
 		
 		System.out.println(r + " " + t + " " + l + " " + m + " " + a + " " + f);
-		
+	}
+	
+	//read the query file
+	private static void readQuery(String queryFile) {
+		sLists = new ArrayList<ArrayList<Double>>();
 		Scanner in = null;
 		String queryline = null;
 		try {
@@ -49,12 +116,22 @@ public class op {
 			e.printStackTrace();
 		}
 		while (in.hasNextLine()) {
+			ArrayList<Double> selectivities = new ArrayList<Double>();
 			queryline = in.nextLine();
-			//In this loop for each line of query, calculate for the optimal plan and print out
-			
+			String[] ss =queryline.split(" ");
+			for (String s: ss)
+				selectivities.add(Double.parseDouble(s));			
+			sLists.add(selectivities);
 		}
-
+		in.close();
 		
+		//output test
+//		for (ArrayList<Double> l : sLists) {
+//			for (double d : l) {
+//				System.out.print(d + " ");
+//			}
+//			System.out.println();
+//		}
 	}
 	
 	private double calFixCost(int n){

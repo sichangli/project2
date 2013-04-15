@@ -1,4 +1,4 @@
-import java.util.HashSet;
+import java.util.TreeSet;
 
 
 public class Subset {
@@ -9,6 +9,7 @@ public class Subset {
 	private double c;
 	private int L;
 	private int R;
+	private TreeSet<Integer> terms;
 	
 	public int getN() {
 		return n;
@@ -58,19 +59,15 @@ public class Subset {
 		R = r;
 	}
 
-	public HashSet<Integer> getTerms() {
+	public TreeSet<Integer> getTerms() {
 		return terms;
 	}
 
-	public void setTerms(HashSet<Integer> terms) {
+	public void setTerms(TreeSet<Integer> terms) {
 		this.terms = terms;
 	}
 
-	HashSet<Integer> terms;
-
 	public Subset() {
-		terms = new HashSet<Integer>();
-		b = 0;
 	}
 
 }
