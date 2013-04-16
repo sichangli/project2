@@ -202,6 +202,14 @@ public class op {
 		return rs;
 	}
 	
+	private static double[] calMetricD(int n, double p){
+		double fcost = calFixCost(n);
+		double[] rs = new double[2];
+		rs[0] = fcost;
+		rs[1] = p;
+		return rs;
+	}
+	
 	//For example 4.4
 	private static double noBran(ArrayList<Double> sList, TreeSet<Integer> subset){
 		int n = subset.size();
