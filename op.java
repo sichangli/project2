@@ -179,15 +179,15 @@ public class op {
 			totalP *= currP;
 		}
 		if(totalP <= 0.5)
-			totalQ = 1 - totalP;
+			totalQ = totalP;
 		else 
-			totalQ = 
+			totalQ = 1 - totalP;
 		double result = n*r + (n-1)*l + n*f + t + m*totalQ + totalP*a; 
 		return result;
 	}
 	
 	//For Eq.(1)
-	private static double eqone(ArrayList<Double> sList, TreeSet<Integer> subset){
+	private static double eqone(ArrayList<Double> sList, TreeSet<Integer> subsetleft, TreeSet<Integer> subsetright){
 		
 	}
 	
