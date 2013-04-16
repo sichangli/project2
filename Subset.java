@@ -7,8 +7,8 @@ public class Subset {
 	private double p;
 	private int b;
 	private double c;
-	private int L;
-	private int R;
+	private Subset L;
+	private Subset R;
 	private TreeSet<Integer> terms;
 	
 	public int getN() {

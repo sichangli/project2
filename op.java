@@ -33,12 +33,11 @@ public class op {
 				for (Subset sub2 : subs) {
 					if (intersect(sub1.getTerms(), sub2.getTerms()))
 						break;
-					double[] sub2CMetric = calMetricC(sub2.getN(), sub2.getP());
-					double[] sub1LeftMostCMetric = calMetricC(1, sList.get(sub1.getTerms().first()));
-					if (sub2CMetric[0] < sub1LeftMostCMetric[0] && sub2CMetric[1] < sub1LeftMostCMetric[1])
+					if (dominCMetric(sub1, sub2, sList))
 						break;
-					if (sub2.getP() <= 0.5 && )
+					if (sub2.getP() <= 0.5 && dominDMetric(sub1, sub2, sList))
 						break;
+					Subset union = findUnion(sub1, sub2, subs);
 				}
 			}
 		}
@@ -52,6 +51,38 @@ public class op {
 //			System.out.println();
 //		}
 		
+	}
+	
+	private static Subset findUnion(Subset sub1, Subset sub2, ArrayList<Subset> subs) {
+		TreeSet<Integer> s1 = sub1.getTerms();
+		TreeSet<Integer> s2 = sub2.getTerms();
+		TreeSet<Integer> temp = new TreeSet<Integer>();
+		temp.addAll(s1);
+		temp.addAll(s2);
+		for (Subset s : subs) {
+			TreeSet<Integer> ss = s.getTerms();
+			if (temp.size() == ss.size() && temp.containsAll(ss))
+				return s;
+		}
+		return null;
+	}
+	
+	
+	private static boolean dominDMetric(Subset sub1, Subset sub2, ArrayList<Double> sList) {
+		double[] sub2DMetric = calMetricD(sub2.getN(), sub2.getP());
+		TreeSet<Integer> s1 = sub1.getTerms();
+		for (int i : s1) {
+			double[] sub1SomeDMetric = calMetricD(1, sList.get(i));
+			if (sub2DMetric[0] < sub1SomeDMetric[0] && sub2DMetric[1] < sub1SomeDMetric[1])
+				return true;
+		}
+		return false;
+	}
+	
+	private static boolean dominCMetric(Subset sub1, Subset sub2, ArrayList<Double> sList) {
+		double[] sub2CMetric = calMetricC(sub2.getN(), sub2.getP());
+		double[] sub1LeftMostCMetric = calMetricC(1, sList.get(sub1.getTerms().first()));
+		return sub2CMetric[0] < sub1LeftMostCMetric[0] && sub2CMetric[1] < sub1LeftMostCMetric[1];
 	}
 	
 	//calculate the c-metric of a subset
