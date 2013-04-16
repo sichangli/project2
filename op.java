@@ -32,11 +32,11 @@ public class op {
 				//s'
 				for (Subset sub2 : subs) {
 					if (intersect(sub1.getTerms(), sub2.getTerms()))
-						break;
+						continue;
 					if (dominCMetric(sub1, sub2, sList))
-						break;
+						continue;
 					if (sub2.getP() <= 0.5 && dominDMetric(sub1, sub2, sList))
-						break;
+						continue;
 					
 					double cost = eqone(sList, sub2, sub1);
 					Subset union = findUnion(sub1, sub2, subs);
