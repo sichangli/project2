@@ -244,11 +244,29 @@ public class op {
 	//For example 4.4
 	private static double noBran(ArrayList<Double> sList, TreeSet<Integer> subset){
 		int n = subset.size();
+		return n*r+(n-1)*l+n*f+a;
 	}
 	
 	//For example 4.5
 	private static double logicBran(ArrayList<Double> sList, TreeSet<Integer> subset){
 		int n = subset.size();
+		double totalP = 1;
+		double totalQ;
+		for(Integer curr : subset){
+			double currP = sList.get(curr.intValue());
+			totalP *= currP;
+		}
+		if(totalP <= 0.5)
+			totalQ = totalP;
+		else 
+			totalQ = 1 - totalP;
+		double result = n*r + (n-1)*l + n*f + t + m*totalQ + totalP*a; 
+		return result;
+	}
+	
+	//For Eq.(1)
+	private static double eqone(ArrayList<Double> sList, TreeSet<Integer> subsetleft, TreeSet<Integer> subsetright){
+		
 	}
 	
 }
