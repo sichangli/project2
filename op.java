@@ -37,7 +37,14 @@ public class op {
 						break;
 					if (sub2.getP() <= 0.5 && dominDMetric(sub1, sub2, sList))
 						break;
+					
+					double cost = eqone(sList, sub2.getTerms(), sub1.getTerms());
 					Subset union = findUnion(sub1, sub2, subs);
+					if (cost < union.getC()) {
+						union.setC(cost);
+						union.setL(sub2);
+						union.setR(sub1);
+					}
 				}
 			}
 		}
