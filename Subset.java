@@ -7,8 +7,8 @@ public class Subset {
 	private double p;
 	private int b;
 	private double c;
-	private int L;
-	private int R;
+	private Subset L;
+	private Subset R;
 	private TreeSet<Integer> terms;
 	
 	public int getN() {
@@ -43,19 +43,19 @@ public class Subset {
 		this.c = c;
 	}
 
-	public int getL() {
+	public Subset getL() {
 		return L;
 	}
 
-	public void setL(int l) {
+	public void setL(Subset l) {
 		L = l;
 	}
 
-	public int getR() {
+	public Subset getR() {
 		return R;
 	}
 
-	public void setR(int r) {
+	public void setR(Subset r) {
 		R = r;
 	}
 
