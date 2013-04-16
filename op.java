@@ -60,6 +60,17 @@ public class op {
 		
 	}
 	
+	private static void output(ArrayList<Double> sList) {
+		System.out.println("==================================================================");
+		for (int i = 0; i < sList.size(); i++) {
+			if (i == sList.size() - 1)
+				System.out.print(sList.get(i));
+			else
+				System.out.print(sList.get(i) + " ");
+		}
+		System.out.println("------------------------------------------------------------------");
+	}
+	
 	private static Subset findUnion(Subset sub1, Subset sub2, ArrayList<Subset> subs) {
 		TreeSet<Integer> s1 = sub1.getTerms();
 		TreeSet<Integer> s2 = sub2.getTerms();
@@ -287,7 +298,7 @@ public class op {
 		else 
 			q = 1-p;
 			
-		return fcost+m*q+p+costright
+		return fcost+m*q+p+costright;
 	}
 	
 }
