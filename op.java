@@ -234,8 +234,22 @@ public class op {
 	}
 	
 	//For Eq.(1)
-	private static double eqone(ArrayList<Double> sList, TreeSet<Integer> subsetleft, TreeSet<Integer> subsetright){
+	private static double eqone(ArrayList<Double> sList, Subset subsetleft, Subset subsetright){
+		int nleft = subsetleft.getN();
+		int nright = subsetright.getN();
+		//Get cost of plan 2 for the right one
+		double costright = subsetright.getC();
 		
+		double fcost = calFixCost(nleft);
+		
+		double p = subsetleft.getP();
+		double q;
+		if(p <= 0.5)
+			q = p;
+		else 
+			q = 1-p;
+			
+		return fcost+m*q+p+costright
 	}
 	
 }
