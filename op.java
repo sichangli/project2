@@ -25,7 +25,22 @@ public class op {
 		readConfig(configFile);
 		
 		for (ArrayList<Double> sList : sLists) {
-			ArrayList<Subset> subs = subsets(sList); 
+			//generate 2(k) - 1 subsets
+			ArrayList<Subset> subs = subsets(sList);
+			//s
+			for (Subset sub1 : subs)  {
+				//s'
+				for (Subset sub2 : subs) {
+					if (intersect(sub1.getTerms(), sub2.getTerms()))
+						break;
+					double[] sub2CMetric = calMetricC(sub2.getN(), sub2.getP());
+					double[] sub1LeftMostCMetric = calMetricC(1, sList.get(sub1.getTerms().first()));
+					if (sub2CMetric[0] < sub1LeftMostCMetric[0] && sub2CMetric[1] < sub1LeftMostCMetric[1])
+						break;
+					if (sub2.getP() <= 0.5 && )
+						break;
+				}
+			}
 		}
 //		TreeSet<Integer> set = new TreeSet<Integer>();
 //		for (int j = 0; j < 3; j++)
@@ -37,6 +52,34 @@ public class op {
 //			System.out.println();
 //		}
 		
+	}
+	
+	//calculate the c-metric of a subset
+//	private static double[] cMetricSubset(Subset sub, ArrayList<Double> sList) {
+//		double p = 1;
+//		TreeSet<Integer> s = sub.getTerms();
+//		int n = s.size();
+//		for (int i : s) {
+//			p *= sList.get(i);
+//		}
+//		return calMetricC(n, p);
+//	}
+//	
+//	//calculate the c-metric of leftmost & term  in subset
+//	private static double[] cMetricLeftMost(Subset sub, ArrayList<Double> sList) {
+//		TreeSet<Integer> s = sub.getTerms();
+//		int n = 1;
+//		double p = sList.get(s.first());
+//		return calMetricC(n, p);
+//	}
+	
+	//check whether 2 sets intersect with each other
+	private static boolean intersect(TreeSet<Integer> s1,TreeSet<Integer> s2) {
+		for (int i1 : s1) {
+			if (s2.contains(i1))
+				return true;
+		}
+		return false;
 	}
 	
 	private static ArrayList<Subset> subsets(ArrayList<Double> sList) {
@@ -55,6 +98,10 @@ public class op {
 			Subset newSubset = new Subset();
 			newSubset.setTerms(s);
 			newSubset.setN(s.size());
+			double p = 1;
+			for (int i : s)
+				p *= sList.get(i);
+			newSubset.setP(p);
 			//calculate logic branch cost and no branch cost
 			double logicBranCost = logicBran(sList, s);
 			double noBranCost = noBran(sList, s);
