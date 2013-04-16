@@ -134,11 +134,11 @@ public class op {
 //		}
 	}
 	
-	private double calFixCost(int n){
+	private static double calFixCost(int n){
 		return n*r+(n-1)*l+n*f+t;
 	}
 	
-	private double[] calMetricC(int n, double p){
+	private static double[] calMetricC(int n, double p){
 		double fcost = calFixCost(n);
 		double[] rs = new double[2];
 		rs[0] = ((p-1)/fcost);
@@ -146,6 +146,14 @@ public class op {
 		return rs;
 	}
 	
+	//For example 4.4
+	private double noBran(int n, ArrayList<Double> sList){
 	
+	}
+	
+	//For example 4.5
+	private double logicBran(int n, ArrayList<Double> sList){
+	
+	}
 	
 }
