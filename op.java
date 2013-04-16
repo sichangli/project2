@@ -24,10 +24,9 @@ public class op {
 		readQuery(queryFile);
 		readConfig(configFile);
 		
-//		for (ArrayList<Double> sList : sLists) {
-//			
-//		}
-		subsets(4);
+		for (ArrayList<Double> sList : sLists) {
+			ArrayList<Subset> subs = subsets(sList); 
+		}
 //		TreeSet<Integer> set = new TreeSet<Integer>();
 //		for (int j = 0; j < 3; j++)
 //			set.add(j);
@@ -40,11 +39,11 @@ public class op {
 		
 	}
 	
-	private static ArrayList<Subset> subsets(int listSize) {
+	private static ArrayList<Subset> subsets(ArrayList<Double> sList) {
 		ArrayList<TreeSet<Integer>> subs = new ArrayList<TreeSet<Integer>>();
-		for (int i = 1; i <= listSize; i++) {
+		for (int i = 1; i <= sList.size(); i++) {
 			TreeSet<Integer> set = new TreeSet<Integer>();
-			for (int j = 0; j < listSize; j++)
+			for (int j = 0; j < sList.size(); j++)
 				set.add(j);
 			subs.addAll(subsetsOfSize(set, i));
 		}
@@ -55,6 +54,16 @@ public class op {
 //			System.out.println();
 			Subset newSubset = new Subset();
 			newSubset.setTerms(s);
+			newSubset.setN(s.size());
+			//calculate logic branch cost and no branch cost
+			double logicBranCost = logicBran(sList, s);
+			double noBranCost = noBran(sList, s);
+			if (noBranCost < logicBranCost) {
+				newSubset.setC(noBranCost);
+				newSubset.setB(1);
+			}
+			else
+				newSubset.setC(logicBranCost);
 			results.add(newSubset);
 		}
 		return results;
@@ -147,13 +156,13 @@ public class op {
 	}
 	
 	//For example 4.4
-	private double noBran(int n, ArrayList<Double> sList){
-	
+	private static double noBran(ArrayList<Double> sList, TreeSet<Integer> subset){
+		int n = subset.size();
 	}
 	
 	//For example 4.5
-	private double logicBran(int n, ArrayList<Double> sList){
-	
+	private static double logicBran(ArrayList<Double> sList, TreeSet<Integer> subset){
+		int n = subset.size();
 	}
 	
 }
