@@ -120,9 +120,9 @@ public class op {
 				System.out.print("t"+(t.intValue()+1)+"["+"o"+(t.intValue()+1)+"[i]"+"]");
 				con++;
 		}
-		System.out.println(");\n}");
+		System.out.print(");\n}");
 		}
-		System.out.println("--------------------------------------");
+		System.out.println("\n--------------------------------------");
 		System.out.println("cost = "+curr.getC());
 	}
 	
