@@ -38,8 +38,12 @@ public class op {
 					if (sub2.getP() <= 0.5 && dominDMetric(sub1, sub2, sList))
 						continue;
 					
+					if(sub2 == sub1)
+						break;
+					
 					double cost = eqone(sList, sub2, sub1);
 					Subset union = findUnion(sub1, sub2, subs);
+					//System.out.println("new cost = "+cost+" || old cost = "+union.getC());
 					if (cost < union.getC()) {
 						union.setC(cost);
 						union.setL(sub2);
@@ -47,6 +51,7 @@ public class op {
 					}
 				}
 			}
+			output(sList, subs);
 		}
 		
 		
@@ -63,15 +68,51 @@ public class op {
 		
 	}
 	
-	private static void output(ArrayList<Double> sList) {
-		System.out.println("==================================================================");
+	private static void output(ArrayList<Double> sList, ArrayList<Subset> subs) {
+		System.out.println("\n==================================================================");
 		for (int i = 0; i < sList.size(); i++) {
 			if (i == sList.size() - 1)
 				System.out.print(sList.get(i));
 			else
 				System.out.print(sList.get(i) + " ");
 		}
-		System.out.println("------------------------------------------------------------------");
+		System.out.println("\n------------------------------------------------------------------");
+		System.out.print("if");
+		Subset curr = subs.get(subs.size()-1);
+		System.out.println(curr.getTerms().size());
+		if(curr.getR() == null){
+			System.out.println("Right is null");
+		}
+		if(curr.getL() == null){
+			System.out.println("Left is null");
+		}
+		output_in(curr);
+	}
+	
+	private static void output_in(Subset curr){
+			System.out.print("(");
+			if(curr.getR() == null && curr.getL() == null){
+				//if(curr.getB() != 2){
+					int con = 0;
+					for(Integer ii : curr.getTerms()){
+						if(con > 0)
+							System.out.print("&");
+						int intii = ii.intValue()+1;
+						System.out.print("t"+ intii);
+						con++;
+					}
+				//}
+			} else {
+				if(curr.getR()!= null){
+					output_in(curr.getR());
+				}
+				System.out.print("&&");
+				if(curr.getL()!= null){
+					output_in(curr.getL());
+				}
+			}
+			System.out.print(")");
+		
 	}
 	
 	private static Subset findUnion(Subset sub1, Subset sub2, ArrayList<Subset> subs) {
@@ -82,8 +123,9 @@ public class op {
 		temp.addAll(s2);
 		for (Subset s : subs) {
 			TreeSet<Integer> ss = s.getTerms();
-			if (temp.size() == ss.size() && temp.containsAll(ss))
+			if (temp.size() == ss.size() && temp.containsAll(ss))	
 				return s;
+				
 		}
 		return null;
 	}
@@ -163,6 +205,7 @@ public class op {
 			}
 			else
 				newSubset.setC(logicBranCost);
+			
 			results.add(newSubset);
 		}
 		return results;
@@ -301,7 +344,7 @@ public class op {
 		else 
 			q = 1-p;
 			
-		return fcost+m*q+p+costright;
+		return fcost+m*q+p*costright;
 	}
 	
 }
