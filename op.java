@@ -17,9 +17,9 @@ public class op {
 	public static void main(String[] args) {
 		
 		String queryFile = args[0];
-//		String configFile = args[1];
+		String configFile = args[1];
 //		String queryFile = "query.txt";
-		String configFile = "config.txt";
+//		String configFile = "config.txt";
 		
 		readQuery(queryFile);
 		readConfig(configFile);
@@ -66,14 +66,14 @@ public class op {
 	}
 	
 	private static void output(ArrayList<Double> sList, ArrayList<Subset> subs) {
-		System.out.println("\n==================================================================");
+		System.out.println("======================================");
 		for (int i = 0; i < sList.size(); i++) {
 			if (i == sList.size() - 1)
 				System.out.print(sList.get(i));
 			else
 				System.out.print(sList.get(i) + " ");
 		}
-		System.out.println("\n------------------------------------------------------------------");
+		System.out.println("\n--------------------------------------");
 
 		Subset curr = subs.get(subs.size()-1);
 		
@@ -106,7 +106,7 @@ public class op {
 				System.out.print("t"+(t.intValue()+1)+"["+"o"+(t.intValue()+1)+"[i]"+"]");
 				con++;
 			}
-			System.out.print(")");
+			System.out.print(");");
 		} else {
 		System.out.print("if");
 		output_in(curr);
@@ -120,18 +120,16 @@ public class op {
 				System.out.print("t"+(t.intValue()+1)+"["+"o"+(t.intValue()+1)+"[i]"+"]");
 				con++;
 		}
-		System.out.println(")\n}");
+		System.out.println(");\n}");
 		}
-		System.out.println("\n------------------------------------------------------------------");
-		System.out.println("cost = "+curr.getC());
-		
+		System.out.println("\n--------------------------------------");
+		System.out.println("cost = "+curr.getC()+"\n");
 	}
 	
 	private static void output_in(Subset curr){
-			if(curr.getTerms().size() > 1)
+			if(curr.getN() > 1)
 				System.out.print("(");
 			if(curr.getR() == null && curr.getL() == null){
-				//if(curr.getB() != 1){
 					int con = 0;
 					for(Integer ii : curr.getTerms()){
 						if(con > 0)
@@ -140,8 +138,6 @@ public class op {
 						System.out.print("t"+intii+"["+"o"+intii+"[i]"+"]");
 						con++;
 					}
-					
-				//}
 			} else {
 				if(curr.getL()!= null){
 					output_in(curr.getL());
@@ -151,7 +147,7 @@ public class op {
 					output_in(curr.getR());
 				}
 			}
-			if(curr.getTerms().size() > 1)
+			if(curr.getN() > 1)
 				System.out.print(")");
 		
 	}
@@ -162,7 +158,13 @@ public class op {
 			curr.setTerms(null);
 			return rs;
 		}
-		return getNoBran(curr.getR());
+		if(curr.getR() == null)
+			return null;
+		TreeSet<Integer> tmp = getNoBran(curr.getR());
+		if(tmp != null) {
+			curr.setN(curr.getN() - tmp.size());
+		}
+		return tmp;
 	}
 	
 	private static Subset findUnion(Subset sub1, Subset sub2, ArrayList<Subset> subs) {
@@ -175,7 +177,6 @@ public class op {
 			TreeSet<Integer> ss = s.getTerms();
 			if (temp.size() == ss.size() && temp.containsAll(ss))	
 				return s;
-				
 		}
 		return null;
 	}
@@ -197,25 +198,6 @@ public class op {
 		double[] sub1LeftMostCMetric = calMetricC(1, sList.get(sub1.getTerms().first()));
 		return sub2CMetric[0] > sub1LeftMostCMetric[0] && sub2CMetric[1] > sub1LeftMostCMetric[1];
 	}
-	
-	//calculate the c-metric of a subset
-//	private static double[] cMetricSubset(Subset sub, ArrayList<Double> sList) {
-//		double p = 1;
-//		TreeSet<Integer> s = sub.getTerms();
-//		int n = s.size();
-//		for (int i : s) {
-//			p *= sList.get(i);
-//		}
-//		return calMetricC(n, p);
-//	}
-//	
-//	//calculate the c-metric of leftmost & term  in subset
-//	private static double[] cMetricLeftMost(Subset sub, ArrayList<Double> sList) {
-//		TreeSet<Integer> s = sub.getTerms();
-//		int n = 1;
-//		double p = sList.get(s.first());
-//		return calMetricC(n, p);
-//	}
 	
 	//check whether 2 sets intersect with each other
 	private static boolean intersect(TreeSet<Integer> s1,TreeSet<Integer> s2) {
@@ -301,7 +283,7 @@ public class op {
 		a = Double.valueOf(configProp.getProperty("a"));
 		f = Double.valueOf(configProp.getProperty("f"));
 		
-		System.out.println(r + " " + t + " " + l + " " + m + " " + a + " " + f);
+		//System.out.println(r + " " + t + " " + l + " " + m + " " + a + " " + f);
 	}
 	
 	//read the query file
