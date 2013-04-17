@@ -38,9 +38,6 @@ public class op {
 					if (sub2.getP() <= 0.5 && dominDMetric(sub1, sub2, sList))
 						continue;
 					
-					if(sub2 == sub1)
-						break;
-					
 					double cost = eqone(sList, sub2, sub1);
 					Subset union = findUnion(sub1, sub2, subs);
 					//System.out.println("new cost = "+cost+" || old cost = "+union.getC());
@@ -77,42 +74,95 @@ public class op {
 				System.out.print(sList.get(i) + " ");
 		}
 		System.out.println("\n------------------------------------------------------------------");
-		System.out.print("if");
+
 		Subset curr = subs.get(subs.size()-1);
-		System.out.println(curr.getTerms().size());
-		if(curr.getR() == null){
+		
+		//System.out.println(curr.getTerms().size());
+		
+/* 		if(curr.getL() == null){
 			System.out.println("Right is null");
+		} else {
+		System.out.print("Left");
+			for(Integer t : curr.getL().getTerms()){
+				System.out.print(t+" ");
+			}
 		}
-		if(curr.getL() == null){
+		if(curr.getR() == null){
 			System.out.println("Left is null");
-		}
+		} else {
+		System.out.print("Right");
+			for(Integer t : curr.getR().getTerms()){
+				System.out.print(t+" ");
+			}
+		} */
+		TreeSet<Integer> tmp = getNoBran(curr);
+		if(curr.getTerms() == null){
+			System.out.println("answer[j] = i;");
+			System.out.print("j += (");
+			int con = 0;
+			for(Integer t : tmp){
+				if(con > 0)
+					System.out.print(" & ");
+				System.out.print("t"+(t.intValue()+1)+"["+"o"+(t.intValue()+1)+"[i]"+"]");
+				con++;
+			}
+			System.out.print(")");
+		} else {
+		System.out.print("if");
 		output_in(curr);
+		System.out.println(" {");
+		System.out.println("	answer[j] = i;");
+		System.out.print("	j += (");
+		int con = 0;
+		for(Integer t : tmp){
+				if(con > 0)
+				System.out.print(" & ");
+				System.out.print("t"+(t.intValue()+1)+"["+"o"+(t.intValue()+1)+"[i]"+"]");
+				con++;
+		}
+		System.out.println(")\n}");
+		}
+		System.out.println("\n------------------------------------------------------------------");
+		System.out.print("cost = "+curr.getC());
+		
 	}
 	
 	private static void output_in(Subset curr){
-			System.out.print("(");
+			if(curr.getTerms().size() > 1)
+				System.out.print("(");
 			if(curr.getR() == null && curr.getL() == null){
-				//if(curr.getB() != 2){
+				//if(curr.getB() != 1){
 					int con = 0;
 					for(Integer ii : curr.getTerms()){
 						if(con > 0)
-							System.out.print("&");
+							System.out.print(" & ");
 						int intii = ii.intValue()+1;
-						System.out.print("t"+ intii);
+						System.out.print("t"+intii+"["+"o"+intii+"[i]"+"]");
 						con++;
 					}
+					
 				//}
 			} else {
-				if(curr.getR()!= null){
-					output_in(curr.getR());
-				}
-				System.out.print("&&");
 				if(curr.getL()!= null){
 					output_in(curr.getL());
 				}
+				if(curr.getR().getTerms()!= null){
+					System.out.print(" && ");
+					output_in(curr.getR());
+				}
 			}
-			System.out.print(")");
+			if(curr.getTerms().size() > 1)
+				System.out.print(")");
 		
+	}
+	
+	private static TreeSet<Integer> getNoBran(Subset curr){
+		if(curr.getR() == null && curr.getB() == 1){
+			TreeSet<Integer> rs = curr.getTerms();
+			curr.setTerms(null);
+			return rs;
+		}
+		return getNoBran(curr.getR());
 	}
 	
 	private static Subset findUnion(Subset sub1, Subset sub2, ArrayList<Subset> subs) {
@@ -136,7 +186,7 @@ public class op {
 		TreeSet<Integer> s1 = sub1.getTerms();
 		for (int i : s1) {
 			double[] sub1SomeDMetric = calMetricD(1, sList.get(i));
-			if (sub2DMetric[0] < sub1SomeDMetric[0] && sub2DMetric[1] < sub1SomeDMetric[1])
+			if (sub2DMetric[0] > sub1SomeDMetric[0] && sub2DMetric[1] > sub1SomeDMetric[1])
 				return true;
 		}
 		return false;
@@ -145,7 +195,7 @@ public class op {
 	private static boolean dominCMetric(Subset sub1, Subset sub2, ArrayList<Double> sList) {
 		double[] sub2CMetric = calMetricC(sub2.getN(), sub2.getP());
 		double[] sub1LeftMostCMetric = calMetricC(1, sList.get(sub1.getTerms().first()));
-		return sub2CMetric[0] < sub1LeftMostCMetric[0] && sub2CMetric[1] < sub1LeftMostCMetric[1];
+		return sub2CMetric[0] > sub1LeftMostCMetric[0] && sub2CMetric[1] > sub1LeftMostCMetric[1];
 	}
 	
 	//calculate the c-metric of a subset
