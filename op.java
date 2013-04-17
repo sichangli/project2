@@ -38,6 +38,9 @@ public class op {
 					if (sub2.getP() <= 0.5 && dominDMetric(sub1, sub2, sList))
 						continue;
 					
+					if(sub1 == sub2)
+						break;
+					
 					double cost = eqone(sList, sub2, sub1);
 					Subset union = findUnion(sub1, sub2, subs);
 					//System.out.println("new cost = "+cost+" || old cost = "+union.getC());
