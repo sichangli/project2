@@ -109,10 +109,10 @@ public class op {
 			System.out.print(");");
 		} else {
 		System.out.print("if");
-		output_in(curr);
+		output_in(curr, true);
 		System.out.println(" {");
-		System.out.println("	answer[j] = i;");
-		System.out.print("	j += (");
+		System.out.println("\tanswer[j] = i;");
+		System.out.print("\tj += (");
 		int con = 0;
 		for(Integer t : tmp){
 				if(con > 0)
@@ -123,11 +123,11 @@ public class op {
 		System.out.println(");\n}");
 		}
 		System.out.println("\n--------------------------------------");
-		System.out.println("cost = "+curr.getC()+"\n");
+		System.out.println("cost = "+curr.getC());
 	}
 	
-	private static void output_in(Subset curr){
-			if(curr.getN() > 1)
+	private static void output_in(Subset curr, boolean check){
+			if(curr.getN() > 1 && check) 
 				System.out.print("(");
 			if(curr.getR() == null && curr.getL() == null){
 					int con = 0;
@@ -140,14 +140,17 @@ public class op {
 					}
 			} else {
 				if(curr.getL()!= null){
-					output_in(curr.getL());
+					boolean checkhere = false;
+					if(curr.getR().getTerms()!=null)
+						checkhere = true;
+					output_in(curr.getL(), checkhere);
 				}
 				if(curr.getR().getTerms()!= null){
 					System.out.print(" && ");
-					output_in(curr.getR());
+					output_in(curr.getR(), true);
 				}
 			}
-			if(curr.getN() > 1)
+			if(curr.getN() > 1 && check)
 				System.out.print(")");
 		
 	}
