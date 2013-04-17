@@ -111,8 +111,8 @@ public class op {
 		System.out.print("if");
 		output_in(curr, true);
 		System.out.println(" {");
-		System.out.println("\tanswer[j] = i;");
-		System.out.print("\tj += (");
+		System.out.println("    answer[j] = i;");
+		System.out.print("    j += (");
 		int con = 0;
 		for(Integer t : tmp){
 				if(con > 0)
@@ -122,7 +122,7 @@ public class op {
 		}
 		System.out.println(");\n}");
 		}
-		System.out.println("\n--------------------------------------");
+		System.out.println("--------------------------------------");
 		System.out.println("cost = "+curr.getC());
 	}
 	
