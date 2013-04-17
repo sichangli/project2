@@ -16,9 +16,9 @@ public class op {
 	
 	public static void main(String[] args) {
 		
-//		String queryFile = args[0];
+		String queryFile = args[0];
 //		String configFile = args[1];
-		String queryFile = "query.txt";
+//		String queryFile = "query.txt";
 		String configFile = "config.txt";
 		
 		readQuery(queryFile);
@@ -123,7 +123,7 @@ public class op {
 		System.out.println(")\n}");
 		}
 		System.out.println("\n------------------------------------------------------------------");
-		System.out.print("cost = "+curr.getC());
+		System.out.println("cost = "+curr.getC());
 		
 	}
 	
