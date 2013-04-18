@@ -25,7 +25,7 @@ README.txt
 1. PROJECT INTRODUCTION:
 This project is an implementation based on the algorithm proposed by Professor Kenneth A. Ross[1] to optimize database query. According to this algorithm, the optimial plan is generated with NO-Branching, Logic-AND and AND-Branching cases.
 The program is implemented with JAVA (in op.java) and could be called with the shell script stage2.sh after compiling is conducted by using Makefile. 
-In this implementation, dynamic programming is applied by using two loops. 
+In this implementation, dynamic programming is applied by using two loops. A class named "Subset" is also defined in the file Subset.java to contain information for each subset.
 
 2. INSTALL AND RUNNING
 2.1 INSTALL

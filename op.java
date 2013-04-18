@@ -18,8 +18,7 @@ public class op {
 		
 		String queryFile = args[0];
 		String configFile = args[1];
-//		String queryFile = "query.txt";
-//		String configFile = "config.txt";
+
 		
 		readQuery(queryFile);
 		readConfig(configFile);
@@ -40,7 +39,7 @@ public class op {
 					
 					double cost = eqone(sList, sub2, sub1);
 					Subset union = findUnion(sub1, sub2, subs);
-					//System.out.println("new cost = "+cost+" || old cost = "+union.getC());
+
 					if (cost < union.getC()) {
 						union.setC(cost);
 						union.setL(sub2);
@@ -50,18 +49,6 @@ public class op {
 			}
 			output(sList, subs);
 		}
-		
-		
-		
-//		TreeSet<Integer> set = new TreeSet<Integer>();
-//		for (int j = 0; j < 3; j++)
-//			set.add(j);
-//		ArrayList<TreeSet<Integer>> s = subsetsOfSize(set, 2);
-//		for (TreeSet<Integer> ss : s) {
-//			for (int i : ss)
-//				System.out.print(i + " ");
-//			System.out.println();
-//		}
 		
 	}
 	
@@ -77,24 +64,6 @@ public class op {
 
 		Subset curr = subs.get(subs.size()-1);
 		
-		//System.out.println(curr.getTerms().size());
-		
-/* 		if(curr.getL() == null){
-			System.out.println("Right is null");
-		} else {
-		System.out.print("Left");
-			for(Integer t : curr.getL().getTerms()){
-				System.out.print(t+" ");
-			}
-		}
-		if(curr.getR() == null){
-			System.out.println("Left is null");
-		} else {
-		System.out.print("Right");
-			for(Integer t : curr.getR().getTerms()){
-				System.out.print(t+" ");
-			}
-		} */
 		TreeSet<Integer> tmp = getNoBran(curr);
 		if(curr.getTerms() == null){
 			System.out.println("answer[j] = i;");
@@ -259,7 +228,7 @@ public class op {
 			return s;
 		}
 		int first = set.first();
-//		System.out.println(first);
+
 		set.remove(first);
 		
 		ArrayList<TreeSet<Integer>> subs1 = subsetsOfSize(new TreeSet<Integer>(set), size - 1);
@@ -289,7 +258,6 @@ public class op {
 		a = Double.valueOf(configProp.getProperty("a"));
 		f = Double.valueOf(configProp.getProperty("f"));
 		
-		//System.out.println(r + " " + t + " " + l + " " + m + " " + a + " " + f);
 	}
 	
 	//read the query file
