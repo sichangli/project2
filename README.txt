@@ -18,6 +18,9 @@ query.txt	//test file containing sample selectivity lists
 conf.txt	//txt file containing configuration parameters
 output.txt	//Execution Output
 README.txt
+**********
+8 totally
+**********
 ===============================
 1. PROJECT INTRODUCTION:
 This project is an implementation based on the algorithm proposed by Professor Kenneth A. Ross[1] to optimize database query. According to this algorithm, the optimial plan is generated with NO-Branching, Logic-AND and AND-Branching cases.
@@ -43,13 +46,13 @@ The config.txt file contains values of estimated costs. A sample file is also in
 2.3 OUTPUT:
 This program will print results on the screen if no redirection is assigned when the shell script is called.
 For a list of selectivities, the output will be returned in the following layout:
+
 ===========================================
 the list of selectivities
 -------------------------------------------
 optimal plan generated with that algorithm
 -------------------------------------------
 cost
-
 
 ===============================
 REFERENCE:
