@@ -170,6 +170,7 @@ public class op {
 		return tmp;
 	}
 	
+	//find the union set of two sets
 	private static Subset findUnion(Subset sub1, Subset sub2, ArrayList<Subset> subs) {
 		TreeSet<Integer> s1 = sub1.getTerms();
 		TreeSet<Integer> s2 = sub2.getTerms();
@@ -184,7 +185,7 @@ public class op {
 		return null;
 	}
 	
-	
+	//check which d-metric of two subset dominates
 	private static boolean dominDMetric(Subset sub1, Subset sub2, ArrayList<Double> sList) {
 		double[] sub2DMetric = calMetricD(sub2.getN(), sub2.getP());
 		TreeSet<Integer> s1 = sub1.getTerms();
@@ -196,6 +197,7 @@ public class op {
 		return false;
 	}
 	
+	//check which c-metric of two subset dominates
 	private static boolean dominCMetric(Subset sub1, Subset sub2, ArrayList<Double> sList) {
 		double[] sub2CMetric = calMetricC(sub2.getN(), sub2.getP());
 		double[] sub1LeftMostCMetric = calMetricC(1, sList.get(sub1.getTerms().first()));
@@ -211,6 +213,7 @@ public class op {
 		return false;
 	}
 	
+	//generate 2(k) - 1 subsets in order
 	private static ArrayList<Subset> subsets(ArrayList<Double> sList) {
 		ArrayList<TreeSet<Integer>> subs = new ArrayList<TreeSet<Integer>>();
 		for (int i = 1; i <= sList.size(); i++) {
